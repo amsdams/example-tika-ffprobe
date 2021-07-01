@@ -50,18 +50,7 @@
 			<version>0.6.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parser-audiovideo-module -->
-		<dependency>
-			<groupId>org.apache.tika</groupId>
-			<artifactId>tika-parser-audiovideo-module</artifactId>
-			<version>2.0.0-BETA</version>
-		</dependency>
+		
 
 	</dependencies>
 

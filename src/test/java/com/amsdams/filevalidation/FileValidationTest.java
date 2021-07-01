@@ -33,6 +33,14 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 @SpringBootTest
 @Slf4j
 public class FileValidationTest {
+	// private FFmpeg ffmpeg;
+	private FFprobe ffprobe;
+
+	FileValidationTest() throws IOException {
+		// ffmpeg = new FFmpeg("/usr/local/bin/ffmpeg");
+		ffprobe = new FFprobe("/usr/local/bin/ffprobe");
+	}
+
 	@Autowired
 	ResourcePatternResolver resourcePatternResolver;
 ///usr/local/bin/ffprobe
@@ -54,7 +62,7 @@ public class FileValidationTest {
 		return handler.toString();
 	}
 
-	private MediaType getMimeType(InputStream inputStream) throws IOException {
+	private MediaType getMediaType(InputStream inputStream) throws IOException {
 		Detector detector = new DefaultDetector();
 		Metadata metadata = new Metadata();
 		BufferedInputStream bStream = new BufferedInputStream(inputStream);
@@ -70,39 +78,14 @@ public class FileValidationTest {
 			log.info("resource {}", resource.getFilename());
 			InputStream inputStream = resource.getInputStream();
 
-			MediaType mediaType = getMimeType(inputStream);
+			MediaType mediaType = getMediaType(inputStream);
 
 			log.info("mediatype {}", mediaType);
 
-			/*
-			 * ffprobe
-			 */
-
-			FFmpeg ffmpeg = new FFmpeg("/usr/local/bin/ffmpeg");
-			FFprobe ffprobe = new FFprobe("/usr/local/bin/ffprobe");
-
-			if (mediaType == MediaType.audio("mpeg")) {
-				log.info("mpeg {}", mediaType.getSubtype());
-
-			}
-
-			if (mediaType == MediaType.video("mp4")) {
-				log.info("mp4 {}", mediaType.toString());
-
-			}
-
-			if (mediaType == MediaType.application("pdf")) {
-				log.info("pdf {}", mediaType.toString());
-
-			}
-			try {
-				if (mediaType.getType().indexOf("audio") == 0 || mediaType.getType().indexOf("video") == 0) {
-					printResult(resource, ffprobe);
-				}
-
-			} catch (Exception e) {
-				log.error("e {}", e.getMessage(), e);
-			}
+			
+			if (isAudioOrVideo( mediaType)) {
+				printStreams(resource, ffprobe);
+			};
 
 			try {
 
@@ -115,7 +98,13 @@ public class FileValidationTest {
 		}
 	}
 
-	private void printResult(Resource resource, FFprobe ffprobe) throws IOException {
+	private boolean isAudioOrVideo(MediaType mediaType) {
+
+		return mediaType.getType().indexOf("audio") == 0 || mediaType.getType().indexOf("video") == 0;
+
+	}
+
+	private void printStreams(Resource resource, FFprobe ffprobe) throws IOException {
 		FFmpegProbeResult probeResult = ffprobe.probe(resource.getFile().getAbsolutePath());
 		FFmpegFormat format = probeResult.getFormat();
 		log.info("File: '{}' ; Format: '{}' ; Duration: {}", format.filename, format.format_long_name, format.duration);
