@@ -28,14 +28,9 @@ public class ResourceService {
 
 	public ResourceService(ResourceServiceProperties resourceServiceProperties) throws IOException {
 		ffprobe = new FFprobe(resourceServiceProperties.getPathFFprobe());
-
 	}
 
 	private FFprobe ffprobe;
-
-	/*
-	 * @Autowired ResourcePatternResolver resourcePatternResolver;
-	 */
 
 	@Autowired
 	FileService fileService;
@@ -89,10 +84,10 @@ public class ResourceService {
 		List<com.amsdams.filevalidation.Resource> myResources = new ArrayList<>();
 		for (File file : files) {
 			try {
-				myResources.add(new com.amsdams.filevalidation.Resource(file.getName(), getMediaType(file),
+				myResources.add(new Resource(file.getName(), getMediaType(file),
 						getCodecTypes(file)));
 			} catch (Exception e) {
-				log.error("err {}", e.getMessage());
+				log.error("err {}", e.getMessage(), e);
 			}
 		}
 		return myResources;
