@@ -1,4 +1,4 @@
-package com.amsdams.filevalidation;
+package com.amsdams.filevalidation.service;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+
+import com.amsdams.filevalidation.ResourceServiceProperties;
+import com.amsdams.filevalidation.domain.CodecType;
+import com.amsdams.filevalidation.domain.Resource;
 
 import lombok.extern.slf4j.Slf4j;
 import net.bramp.ffmpeg.FFprobe;
@@ -38,17 +42,17 @@ public class ResourceService {
 	@Autowired
 	ResourceServiceProperties resourceServiceProperties;
 
-	public com.amsdams.filevalidation.MediaType getMediaType(String name) throws IOException {
+	public com.amsdams.filevalidation.domain.MediaType getMediaType(String name) throws IOException {
 		File resource = getResource(name);
 		return getMediaType(resource);
 	}
 
-	private com.amsdams.filevalidation.MediaType getMediaType(File file) throws IOException {
+	private com.amsdams.filevalidation.domain.MediaType getMediaType(File file) throws IOException {
 		Detector detector = new DefaultDetector();
 		Metadata metadata = new Metadata();
 		FileInputStream fileInputStream = new FileInputStream(file);
 		BufferedInputStream bStream = new BufferedInputStream(fileInputStream);
-		com.amsdams.filevalidation.MediaType mediaType = new com.amsdams.filevalidation.MediaType();
+		com.amsdams.filevalidation.domain.MediaType mediaType = new com.amsdams.filevalidation.domain.MediaType();
 		mediaType.setName(detector.detect(bStream, metadata).toString());
 		return mediaType;
 	}
@@ -77,15 +81,14 @@ public class ResourceService {
 
 	}
 
-	public List<com.amsdams.filevalidation.Resource> getResources() throws IOException {
+	public List<com.amsdams.filevalidation.domain.Resource> getResources() throws IOException {
 
 		String pattern = resourceServiceProperties.getPathResources();
 		List<File> files = fileService.getFiles(pattern);
-		List<com.amsdams.filevalidation.Resource> myResources = new ArrayList<>();
+		List<com.amsdams.filevalidation.domain.Resource> myResources = new ArrayList<>();
 		for (File file : files) {
 			try {
-				myResources.add(new Resource(file.getName(), getMediaType(file),
-						getCodecTypes(file)));
+				myResources.add(new Resource(file.getName(), getMediaType(file), getCodecTypes(file)));
 			} catch (Exception e) {
 				log.error("err {}", e.getMessage(), e);
 			}

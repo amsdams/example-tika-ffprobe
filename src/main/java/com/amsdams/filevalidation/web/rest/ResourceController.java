@@ -1,4 +1,4 @@
-package com.amsdams.filevalidation;
+package com.amsdams.filevalidation.web.rest;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.amsdams.filevalidation.domain.CodecType;
+import com.amsdams.filevalidation.domain.MediaType;
+import com.amsdams.filevalidation.service.ResourceService;
 
 @RestController
 @RequestMapping("resource")
@@ -23,11 +27,12 @@ public class ResourceController {
 	public String home() {
 		return "Hello Docker World";
 	}
-	
+
 	@GetMapping(path = "/", produces = "application/json")
-	public List<com.amsdams.filevalidation.Resource> getResources() throws IOException {
+	public List<com.amsdams.filevalidation.domain.Resource> getResources() throws IOException {
 		return resourceService.getResources();
 	}
+
 	@GetMapping(path = NAME_MEDIATYPE, produces = "application/json")
 	public MediaType getMediaType(@PathVariable String name) throws IOException {
 		return resourceService.getMediaType(name);

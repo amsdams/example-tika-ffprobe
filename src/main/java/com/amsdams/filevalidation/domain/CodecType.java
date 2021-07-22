@@ -1,4 +1,4 @@
-package com.amsdams.filevalidation;
+package com.amsdams.filevalidation.domain;
 
 import lombok.Data;
 

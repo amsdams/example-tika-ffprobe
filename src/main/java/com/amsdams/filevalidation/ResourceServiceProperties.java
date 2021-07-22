@@ -9,10 +9,10 @@ import lombok.Data;
 @ConfigurationProperties("resource")
 public class ResourceServiceProperties {
 
-	@Value( "${pathFFprobe}")
+	@Value("${pathFFprobe}")
 	String pathFFprobe;
-	
-	@Value( "${pathResources}")
+
+	@Value("${pathResources}")
 	String pathResources;
-	
+
 }
