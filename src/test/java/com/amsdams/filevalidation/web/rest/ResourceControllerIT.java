@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-public class ResourceControllerIT {
+class ResourceControllerIT {
 	private static final String RESOURCE_MAPPING = "/resource/";
 	@Autowired
 	MockMvc mockMvc;

@@ -17,8 +17,8 @@ public class FileService {
 	}
 
 	public File getFile(String location) {
-		File file = new File(location);
-		return file;
+		return new File(location);
+		
 
 	}
 }

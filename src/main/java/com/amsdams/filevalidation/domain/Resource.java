@@ -10,5 +10,5 @@ import lombok.Data;
 public class Resource {
 	String name;
 	MediaType mediaType;
-	List<CodecType> codecType;
+	List<CodecType> codecTypes;
 }

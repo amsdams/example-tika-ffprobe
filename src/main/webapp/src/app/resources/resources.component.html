@@ -1,0 +1,13 @@
+<h2>resources</h2>
+<ul class="resources">
+    <li *ngFor="let resource of resources">
+        <h3>{{resource.name}}</h3>
+        <span class="mediaType"> {{resource.mediaType?.name}}</span>
+        <ul class="codecTypes">
+        <li *ngFor="let codecType of resource.codecTypes">
+            <span class="codecType">{{codecType.name}}</span>
+            </li>
+        </ul>
+
+    </li>
+</ul>
